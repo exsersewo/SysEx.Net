@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>exsersewo</Authors>
     <Company />
     <PackageProjectUrl>https://github.com/exsersewo/SysEx.Net</PackageProjectUrl>
@@ -15,7 +15,7 @@
     <NeutralLanguage>en-GB</NeutralLanguage>
     <RepositoryType>Library</RepositoryType>
     <PackageLicenseUrl>https://github.com/exsersewo/SysEx.Net/blob/master/LICENSE</PackageLicenseUrl>
-    <Version>1.0.15</Version>
+    <Version>1.0.2</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
