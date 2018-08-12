@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Authors>exsersewo</Authors>
     <Company />
     <PackageProjectUrl>https://github.com/exsersewo/SysEx.Net</PackageProjectUrl>
@@ -11,6 +11,11 @@
     <SignAssembly>false</SignAssembly>
     <Description>A .Net Wrapper for utilties hosted at: https://api.systemexit.co.uk/ &amp; https://kitsu.systemexit.co.uk/</Description>
     <Copyright>exsersewo</Copyright>
+    <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
+    <NeutralLanguage>en-GB</NeutralLanguage>
+    <RepositoryType>Library</RepositoryType>
+    <PackageLicenseUrl>https://github.com/exsersewo/SysEx.Net/blob/master/LICENSE</PackageLicenseUrl>
+    <Version>1.0.15</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

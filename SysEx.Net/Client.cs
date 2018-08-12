@@ -69,19 +69,16 @@ namespace SysEx.Net
 			return items[random.Next(0, items.Count)];
 		}
 
-		public async Task<WeebGif> GetWeebActionGifAsync(GifType type)
+		public async Task<string> GetWeebActionGifAsync(GifType type)
 		{
-			var resp = await WebRequest.ReturnStringAsync(new Uri("https://api.systemexit.co.uk/get/actions/type/" + type + ".json"));
-			var items = JsonConvert.DeserializeObject<IReadOnlyList<WeebGif>>(resp);
-			return items[random.Next(0, items.Count)];
+			var resp = await WebRequest.ReturnStringAsync(new Uri("https://api.systemexit.co.uk/actions/?action=" + type.ToString().ToLowerInvariant()));
+			return resp;
 		}
 
-		public async Task<WeebGif> GetWeebReactionGifAsync()
+		public async Task<string> GetWeebReactionGifAsync()
 		{
-			var resp = await WebRequest.ReturnStringAsync(new Uri("https://api.systemexit.co.uk/get/reactions.json"));
-			var items = JsonConvert.DeserializeObject<List<WeebGif>>(resp);
-			if (items == null) return null;
-			return items[random.Next(0, items.Count)];
+			var resp = await WebRequest.ReturnStringAsync(new Uri("https://api.systemexit.co.uk/reactions/"));
+			return resp;
 		}
 
 		public async Task<string> GetLewdKitsuneAsync()
