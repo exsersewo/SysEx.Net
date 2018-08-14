@@ -45,5 +45,28 @@ namespace SysEx.Net
 				return null;
 			}
 		}
+        public static async Task<Uri> GetRedirectUriAsync(Uri url)
+        {
+            try
+            {
+                var client = CreateWebRequest(url);
+
+                var resp = (HttpWebResponse)(await client.GetResponseAsync());
+                if (resp.StatusCode == (HttpStatusCode.OK | HttpStatusCode.Redirect))
+                {
+                    var uri = resp.ResponseUri;
+                    resp.Dispose();
+                    client.Abort();
+                    return uri;
+                }
+                resp.Dispose();
+                client.Abort();
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
 	}
 }

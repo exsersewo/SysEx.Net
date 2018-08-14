@@ -71,8 +71,8 @@ namespace SysEx.Net
 
 		public async Task<string> GetWeebActionGifAsync(GifType type)
 		{
-			var resp = await WebRequest.ReturnStringAsync(new Uri("https://api.systemexit.co.uk/actions/?action=" + type.ToString().ToLowerInvariant()));
-			return resp;
+			var resp = await WebRequest.GetRedirectUriAsync(new Uri("https://api.systemexit.co.uk/actions/?action=" + type.ToString().ToLowerInvariant()));
+			return resp.OriginalString;
 		}
 
 		public async Task<string> GetWeebReactionGifAsync()
