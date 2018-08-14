@@ -52,16 +52,7 @@ namespace SysEx.Net
                 var client = CreateWebRequest(url);
 
                 var resp = (HttpWebResponse)(await client.GetResponseAsync());
-                if (resp.StatusCode == (HttpStatusCode.OK | HttpStatusCode.Redirect))
-                {
-                    var uri = resp.ResponseUri;
-                    resp.Dispose();
-                    client.Abort();
-                    return uri;
-                }
-                resp.Dispose();
-                client.Abort();
-                return null;
+                return resp.ResponseUri ?? null;
             }
             catch
             {
