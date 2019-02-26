@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SysEx.Net.Models;
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using System.IO;
@@ -53,6 +54,53 @@ namespace SysEx.Net
 
                 var resp = (HttpWebResponse)(await client.GetResponseAsync());
                 return resp.ResponseUri ?? null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        public static async Task<MemoryStream> GetStreamAsync(Uri url)
+        {
+            try
+            {
+                var client = CreateWebRequest(url);
+
+                var resp = (HttpWebResponse)(await client.GetResponseAsync());
+                if (resp.StatusCode == HttpStatusCode.OK)
+                {
+                    var reader = resp.GetResponseStream();
+                    long contLength = resp.ContentLength;
+
+                    var stream = resp.GetResponseStream();
+
+                    byte[] outData;
+                    using (var tempStream = new MemoryStream())
+                    {
+                        byte[] buffer = new byte[128];
+                        while (true)
+                        {
+                            int read = stream.Read(buffer, 0, buffer.Length);
+                            if (read <= 0)
+                            {
+                                outData = tempStream.ToArray();
+                                break;
+                            }
+                            tempStream.Write(buffer, 0, read);
+                        }
+                    }
+
+                    resp.Dispose();
+                    client.Abort();
+
+                    return new MemoryStream(outData);
+                }
+                else
+                {
+                    resp.Dispose();
+                    client.Abort();
+                    return null;
+                }
             }
             catch
             {

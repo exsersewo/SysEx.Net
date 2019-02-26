@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System;
 
-namespace SysEx.Net
+namespace SysEx.Net.Models
 {
     public class WeebGif
 	{
@@ -9,7 +8,7 @@ namespace SysEx.Net
 		public string URL { get; set; }
 
 		[JsonProperty(PropertyName = "type")]
-		public GifType GifType { get; set; }		
+		public GifType GifType { get; set; }
     }
 	public enum GifType
 	{

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace SysEx.Net
+namespace SysEx.Net.Models
 {
     public class Animal
 	{

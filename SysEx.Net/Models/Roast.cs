@@ -1,4 +1,4 @@
-﻿namespace SysEx.Net
+﻿namespace SysEx.Net.Models
 {
     public class Roasts
     {
