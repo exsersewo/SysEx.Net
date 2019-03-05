@@ -15,7 +15,7 @@ namespace SysEx.Net.Tests
             {
                 var client = new SysExClient();
 
-                var resp = await client.GetMemeImageAsync("22million", "https://cdn.discordapp.com/avatars/270047199184945152/e6a23a1c72703edb5e178411bba9190c.png");
+                var resp = await client.GetMemeImageAsync();
 
                 if(resp is Stream)
                 {
