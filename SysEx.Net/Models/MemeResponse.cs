@@ -5,12 +5,10 @@ namespace SysEx.Net.Models
 {
     public struct MemeResponse
     {
-        [JsonProperty("Successful")]
+        [JsonProperty("success")]
         public bool Successful;
-        [JsonProperty("example")]
-        public string Example;
 
-        [JsonProperty("available-templates")]
+        [JsonProperty("data")]
         public List<MemeEndpoints> Endpoints;
     }
 }

@@ -12,6 +12,8 @@ namespace SysEx.Net
 	public class SysExClient
 	{
 		readonly Random random;
+        readonly Uri APIBase = new Uri("https://api.exsersewo.dev");
+        readonly Uri KitsuBase = new Uri("https://kitsu.exsersewo.dev");
 
 		public SysExClient()
 		{
@@ -22,43 +24,43 @@ namespace SysEx.Net
         /// Gets a Llama image
         /// </summary>
 		public async Task<string> GetLlamaAsync() =>
-			await GetAnimalAsync(new Uri("https://api.systemexit.co.uk/v1/llama.json"));
+			await GetAnimalAsync(new Uri(APIBase, "/v1/llama.json"));
 
         /// <summary>
         /// Gets a Seal image
         /// </summary>
 		public async Task<string> GetSealAsync() =>
-			await GetAnimalAsync(new Uri("https://api.systemexit.co.uk/v1/seal.json"));
+			await GetAnimalAsync(new Uri(APIBase, "/v1/seal.json"));
 
         /// <summary>
         /// Gets a Duck image
         /// </summary>
 		public async Task<string> GetDuckAsync() =>
-			await GetAnimalAsync(new Uri("https://api.systemexit.co.uk/v1/duck.json"));
+			await GetAnimalAsync(new Uri(APIBase, "/v1/duck.json"));
 
         /// <summary>
         /// Gets a Squirrel image
         /// </summary>
 		public async Task<string> GetSquirrelAsync() =>
-			await GetAnimalAsync(new Uri("https://api.systemexit.co.uk/v1/squirrel.json"));
+			await GetAnimalAsync(new Uri(APIBase, "/v1/squirrel.json"));
 
         /// <summary>
         /// Gets a Lizard image
         /// </summary>
 		public async Task<string> GetLizardAsync() =>
-			await GetAnimalAsync(new Uri("https://api.systemexit.co.uk/v1/lizard.json"));
+			await GetAnimalAsync(new Uri(APIBase, "/v1/lizard.json"));
 
         /// <summary>
         /// Gets a morphed animal image
         /// </summary>
 		public async Task<string> GetMorphAsync() =>
-			await GetAnimalAsync(new Uri("https://api.systemexit.co.uk/v1/morphs.json"));
+			await GetAnimalAsync(new Uri(APIBase, "/v1/morphs.json"));
 
         /// <summary>
         /// Gets a Snake image
         /// </summary>
 		public async Task<string> GetSnakeAsync() =>
-			await GetAnimalAsync(new Uri("https://api.systemexit.co.uk/v1/snake.json"));
+			await GetAnimalAsync(new Uri(APIBase, "/v1/snake.json"));
 
 		async Task<string> GetAnimalAsync(Uri url)
 		{
@@ -74,7 +76,7 @@ namespace SysEx.Net
         /// </summary>
 		public async Task<string> GetRoastAsync()
 		{
-			var resp = await WebRequest.ReturnStringAsync(new Uri("https://api.systemexit.co.uk/v1/roasts.json"));
+			var resp = await WebRequest.ReturnStringAsync(new Uri(APIBase, "/v1/roasts.json"));
 			var items = JsonConvert.DeserializeObject<List<Roasts>>(resp);
 			if (items == null) return null;
 			return items[random.Next(0, items.Count)].Roast;
@@ -85,7 +87,7 @@ namespace SysEx.Net
         /// </summary>
 		public async Task<Joke> GetDadJokeAsync()
 		{
-			var resp = await WebRequest.ReturnStringAsync(new Uri("https://api.systemexit.co.uk/v1/dadjokes.json"));
+			var resp = await WebRequest.ReturnStringAsync(new Uri(APIBase, "/v1/dadjokes.json"));
 			var items = JsonConvert.DeserializeObject<List<Joke>>(resp);
 			if (items == null) return null;
 			return items[random.Next(0, items.Count)];
@@ -96,33 +98,13 @@ namespace SysEx.Net
         /// </summary>
 		public async Task<Joke> GetPickupLineAsync()
 		{
-			var resp = await WebRequest.ReturnStringAsync(new Uri("https://api.systemexit.co.uk/v1/pickuplines.json"));
+			var resp = await WebRequest.ReturnStringAsync(new Uri(APIBase, "/v1/pickuplines.json"));
 			var items = JsonConvert.DeserializeObject<List<Joke>>(resp);
 			if (items == null) return null;
 			return items[random.Next(0, items.Count)];
 		}
 
-        /// <summary>
-        /// Gets A Weeb Action Gif
-        /// </summary>
-        /// <param name="type">Gif Action Type</param>
-        /// <returns>Url of image</returns>
-		public async Task<string> GetWeebActionGifAsync(GifType type)
-		{
-			var resp = await WebRequest.GetRedirectUriAsync(new Uri("https://api.systemexit.co.uk/actions/?action=" + type.ToString().ToLowerInvariant()));
-			return resp.OriginalString;
-		}
-
-        /// <summary>
-        /// Gets A Weeb Reaction Gif
-        /// </summary>
-        /// <returns>Url of image</returns>
-		public async Task<string> GetWeebReactionGifAsync()
-		{
-			var resp = await WebRequest.ReturnStringAsync(new Uri("https://api.systemexit.co.uk/reactions/"));
-			return resp;
-		}
-
+        private Uri MemeAPIBase = new Uri("https://api.skuldbot.uk/meme/");
         /// <summary>
         /// Gets a meme image based on given input
         /// </summary>
@@ -131,40 +113,38 @@ namespace SysEx.Net
         /// <returns>Either Object. MemeResponse on empty input or failure, or MemoryStream on success</returns>
         public async Task<object> GetMemeImageAsync(string template = null, params string[] images)
         {
-            var endpoints = JsonConvert.DeserializeObject<MemeResponse>(await WebRequest.ReturnStringAsync(new Uri("https://api.skuldbot.uk/fun/meme/?endpoints")));
             if (template == null && (images.Length <= 0 || images == null))
             {
-                return endpoints;
+                return JsonConvert.DeserializeObject<MemeResponse>(await WebRequest.ReturnStringAsync(MemeAPIBase));
             }
-            if(endpoints.Endpoints.Exists(x=>x.Name.ToLowerInvariant() == template.ToLowerInvariant()))
-            {
-                var endpoint = endpoints.Endpoints.FirstOrDefault(z => z.Name.ToLowerInvariant() == template.ToLowerInvariant());
-                string queryString = "";
-                int x = 1;
-                foreach(var image in images)
-                {
-                    if(image == images.Last())
-                    {
-                        queryString += $"source{x}={image}";
-                    }
-                    else
-                    {
-                        queryString += $"source{x}={image}&";
-                    }
-                    x++;
-                }
 
-                var resp = await WebRequest.GetStreamAsync(new Uri($"https://api.skuldbot.uk/fun/meme/{template}/?{queryString}"));
-                if(resp != null)
-                {
-                    return resp;
-                }
-            }
-            return new MemeResponse
+            string queryString = "";
+            int x = 1;
+            foreach(var image in images)
             {
-                Successful = false,
-                Endpoints = endpoints.Endpoints
-            };
+                if(image == images.Last())
+                {
+                    queryString += $"source{x}={image}";
+                }
+                else
+                {
+                    queryString += $"source{x}={image}&";
+                }
+                x++;
+            }
+
+            var templateURL = new Uri(MemeAPIBase, $"template/{template}/?{queryString}");
+
+            var resp = await WebRequest.GetStreamAsync(templateURL);
+            if(resp != null)
+            {
+                return resp;
+            }
+            else
+            {
+                dynamic reason = JsonConvert.DeserializeObject(await WebRequest.ReturnStringAsync(templateURL));
+                throw new Exception(reason["reason"]);
+            }
         }
 
         /// <summary>
@@ -172,7 +152,7 @@ namespace SysEx.Net
         /// </summary>
 		public async Task<string> GetLewdKitsuneAsync()
 		{
-			var rawresp = await WebRequest.ReturnStringAsync(new Uri("https://kitsu.systemexit.co.uk/lewd"));
+			var rawresp = await WebRequest.ReturnStringAsync(new Uri(KitsuBase, "/lewd"));
 			dynamic item = JObject.Parse(rawresp);
 			var img = item["kitsune"];
 			if (img == null) return null;
@@ -183,7 +163,7 @@ namespace SysEx.Net
         /// </summary>
 		public async Task<string> GetKitsuneAsync()
 		{
-			var rawresp = await WebRequest.ReturnStringAsync(new Uri("https://kitsu.systemexit.co.uk/kitsune"));
+			var rawresp = await WebRequest.ReturnStringAsync(new Uri(KitsuBase, "/kitsune"));
 			dynamic item = JObject.Parse(rawresp);
 			var img = item["kitsune"];
 			if (img == null) return null;

@@ -9,13 +9,15 @@
     <RepositoryUrl>https://github.com/exsersewo/SysEx.Net</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <SignAssembly>false</SignAssembly>
-    <Description>A .Net Wrapper for utilties hosted at: https://api.systemexit.co.uk/ &amp; https://kitsu.systemexit.co.uk/</Description>
+    <Description>A .Net Wrapper for utilties hosted at: https://api.exsersewo.dev/ &amp; https://kitsu.exsersewo.dev/ &amp; https://api.skuldbot.uk/meme</Description>
     <Copyright>exsersewo</Copyright>
     <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
     <NeutralLanguage>en-GB</NeutralLanguage>
     <RepositoryType>Library</RepositoryType>
     <PackageLicenseUrl>https://github.com/exsersewo/SysEx.Net/blob/master/LICENSE</PackageLicenseUrl>
-    <Version>1.0.7</Version>
+    <Version>1.0.9</Version>
+    <AssemblyVersion>1.0.9.0</AssemblyVersion>
+    <FileVersion>1.0.9.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

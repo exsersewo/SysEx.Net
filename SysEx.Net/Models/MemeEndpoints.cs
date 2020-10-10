@@ -4,9 +4,9 @@ namespace SysEx.Net.Models
 {
     public struct MemeEndpoints
     {
-        [JsonProperty("Name")]
+        [JsonProperty("endpoint")]
         public string Name;
-        [JsonProperty("RequiredSources")]
+        [JsonProperty("sources")]
         public int RequiredSources;
     }
 }
